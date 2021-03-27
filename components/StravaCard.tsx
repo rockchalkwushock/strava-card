@@ -11,7 +11,7 @@ export const StravaCard: React.FC<Props> = () => {
   if (!data) return <h1>Loading...</h1>
 
   return (
-    <div className="bg-orange-500 border border-transparent flex flex-col p-4 rounded-lg shadow-md">
+    <div className="bg-orange-300 border border-transparent flex flex-col p-4 rounded-lg shadow-md dark:bg-orange-500">
       <header className="flex items-center justify-center mb-4 w-full">
         <h1 className="font-medium italic text-2xl">My Strava Data</h1>
       </header>
