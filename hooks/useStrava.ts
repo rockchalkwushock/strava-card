@@ -1,10 +1,10 @@
 import useSWR, { SWRResponse } from 'swr'
 
-import { AthleteStats, Maybe } from '@interfaces'
+import { Maybe, Strava } from '@interfaces'
 import { fetcher } from '@lib'
 
-type UseStrava = () => SWRResponse<Maybe<AthleteStats>, unknown>
+type UseStrava = () => SWRResponse<Maybe<Strava>, unknown>
 
 export const useStrava: UseStrava = () => {
-  return useSWR<Maybe<AthleteStats>, unknown>('/api/strava', fetcher)
+  return useSWR<Maybe<Strava>, unknown>('/api/strava', fetcher)
 }

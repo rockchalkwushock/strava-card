@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { AthleteStats, Maybe } from '@interfaces'
+import { Maybe, Strava } from '@interfaces'
 import { getStrava } from '@lib'
 
 export default async (
   _: NextApiRequest,
-  res: NextApiResponse<Maybe<AthleteStats>>
+  res: NextApiResponse<Maybe<Strava>>
 ) => {
   try {
     const response = await getStrava()
