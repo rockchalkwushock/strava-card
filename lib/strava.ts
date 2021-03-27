@@ -13,18 +13,24 @@ const client = new Strava({
 export async function getStrava(): Promise<Maybe<StravaType>> {
   const date = new Date()
   try {
-    // Fetch total stats.
-    const stats = await client.athletes.getStats({
-      // Library expects a number.
-      id: parseInt(process.env.NEXT_PUBLIC_STRAVA_ATHLETE_ID),
-    })
-
-    // Fetch recent activities.
-    const activities = await client.activities.getLoggedInAthleteActivities({
+    // Define request for activities.
+    const activitiesRequest = client.activities.getLoggedInAthleteActivities({
       // Bound the query to the current weeks activities.
       after: getUnixTime(startOfWeek(date)),
       before: getUnixTime(endOfWeek(date)),
     })
+    // Define request for stats.
+    const statsRequest = client.athletes.getStats({
+      // Library expects a number.
+      id: parseInt(process.env.NEXT_PUBLIC_STRAVA_ATHLETE_ID),
+    })
+
+    // Here we can batch our requests.
+    // NOTE: If any request fails Promise.all will reject!
+    const [activities, stats] = await Promise.all([
+      activitiesRequest,
+      statsRequest,
+    ])
 
     // If Strava API call fails reject the Promise with null.
     // The frontend will interpret this and handle displaying
