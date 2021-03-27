@@ -33,7 +33,9 @@ export const Layout = ({
         | <a href="/api/users">Users API</a>
       </nav>
     </header>
-    {children}
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      {children}
+    </div>
     <footer>
       <hr />
       <span>I'm here to stay (Footer)</span>
