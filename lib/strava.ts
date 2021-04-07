@@ -1,16 +1,17 @@
-import { Strava } from 'strava'
+import { Strava as StravaClient } from 'strava'
 import { endOfWeek, format, getUnixTime, startOfWeek } from 'date-fns'
 
-import { Maybe, Strava as StravaType } from '@interfaces'
+import { Maybe, Strava } from '@interfaces'
+import { formatStravaSeconds } from 'utils'
 
 // Instantiate Strava client.
-const client = new Strava({
+const client = new StravaClient({
   client_id: process.env.STRAVA_CLIENT_ID,
   client_secret: process.env.STRAVA_CLIENT_SECRET,
   refresh_token: process.env.STRAVA_REFRESH_TOKEN,
 })
 
-export async function getStrava(): Promise<Maybe<StravaType>> {
+export async function getStrava(): Promise<Maybe<Strava>> {
   const date = new Date()
   try {
     // Define request for activities.
@@ -44,7 +45,7 @@ export async function getStrava(): Promise<Maybe<StravaType>> {
         date: format(new Date(a.start_date_local), 'EEE'),
         distance: `${(a.distance / 1000).toFixed(2)} km`,
         name: a.name,
-        time: `${~~((a.elapsed_time % 3600) / 60)} minutes`,
+        time: formatStravaSeconds(a.elapsed_time),
         type: a.type,
       })),
       totals: {
